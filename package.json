@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "todo.js",
+  "type": "module",
   "scripts": {
     "serve": "nodemon todo.js",
     "start": "node todo.js"
