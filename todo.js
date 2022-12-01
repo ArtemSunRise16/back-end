@@ -1,12 +1,10 @@
 import express from "express";
-import read from "./read.js";
-import write from "./write.js";
 import config from "config";
 import {} from "dotenv/config";
-import routerGet from "./user/tasks.get.js";
-import routerPost from "./user/task.post.js";
-import routerDelete from "./user/task.delete.js";
-import routerPatch from "./user/task.patch.js";
+import routerGet from "./userTasksRouters/tasks.get.js";
+import routerPost from "./userTasksRouters/task.post.js";
+import routerDelete from "./userTasksRouters/task.delete.js";
+import routerPatch from "./userTasksRouters/task.patch.js";
 
 const app = express();
 const PORT = config.get("serverPort");
