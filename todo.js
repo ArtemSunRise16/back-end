@@ -16,9 +16,11 @@ app.use((req, res, next) => {
   const tasks = read();
 
   if (req.method === "PATCH" || req.method === "POST") {
+    const findName = tasks.find((item) => item.name === req.body.name);
+
     if (
-      tasks.find((item) => item.name === req.body.name) &&
-      tasks.find((item) => item.done === req.body.done)
+      (findName && req.method === "POST") ||
+      (findName && findName.done === req.body.done)
     ) {
       return res.json(ApiError.badRequest("name already exists"));
     }
@@ -28,6 +30,7 @@ app.use((req, res, next) => {
   }
   next();
 });
+
 app.use("/api", routerGet);
 app.use("/api", routerPost);
 app.use("/api", routerDelete);

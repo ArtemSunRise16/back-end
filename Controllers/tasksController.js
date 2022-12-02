@@ -37,11 +37,11 @@ export default class UserTaskController {
       res.json(countAndTasks);
     } catch (error) {
       console.log(error);
-      res.status(500).json(error);
+      res.json(ApiError.internal("Error on server"));
     }
   }
 
-  async post(req, res, next) {
+  async post(req, res) {
     try {
       const tasks = read();
       const newTask = {
@@ -54,7 +54,7 @@ export default class UserTaskController {
       res.json({ status: 201 });
     } catch (error) {
       console.log(error);
-      res.status(500).json(error);
+      res.json(ApiError.internal("Error on server"));
     }
   }
 
@@ -62,12 +62,15 @@ export default class UserTaskController {
     try {
       const id = req.params.id;
       const tasks = read();
+      if (tasks.find((item) => item.uuid !== id)) {
+        res.json(ApiError.notFound("not found"));
+      }
       const deletTask = tasks.filter((item) => +item.uuid !== +id);
       write(deletTask);
       res.status(200).json({ status: 204 });
     } catch (error) {
       console.log(error);
-      res.status(500).json(error);
+      res.json(ApiError.internal("Error on server"));
     }
   }
 
@@ -94,7 +97,7 @@ export default class UserTaskController {
       res.status(200).json({ massege: "good" });
     } catch (error) {
       console.log(error);
-      res.status(500).json(error);
+      res.json(ApiError.internal("Error on server"));
     }
   }
 }
