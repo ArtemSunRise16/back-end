@@ -1,5 +1,3 @@
-import read from "../Data/dataRead.js";
-import write from "../Data/dataWrite.js";
 import ApiError from "../Error/apiError.js";
 import { validationResult } from "express-validator";
 

@@ -5,8 +5,8 @@
   "main": "todo.js",
   "type": "module",
   "scripts": {
-    "serve": "nodemon todo.js",
-    "start": "node todo.js"
+    "serve": "nodemon app.js",
+    "start": "node app.js"
   },
   "author": "Artyom",
   "license": "ISC",
@@ -14,7 +14,8 @@
     "config": "^3.3.8",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "express-validator": "^6.14.2"
+    "express-validator": "^6.14.2",
+    "recursive-readdir-sync": "^1.0.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
