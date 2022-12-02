@@ -1,5 +1,5 @@
-import read from "../read.js";
-import write from "../write.js";
+import read from "../Data/dataRead.js";
+import write from "../Data/dataWrite.js";
 import { validationResult } from "express-validator";
 import ApiError from "../error/apiError.js";
 
@@ -62,9 +62,9 @@ export default class UserTaskController {
     try {
       const id = req.params.id;
       const tasks = read();
-      if (tasks.find((item) => item.uuid !== id)) {
-        res.json(ApiError.notFound("not found"));
-      }
+      // if (tasks.find((item) => item.uuid === id)) {
+      //   return res.json(ApiError.notFound("not found"));
+      // }
       const deletTask = tasks.filter((item) => +item.uuid !== +id);
       write(deletTask);
       res.status(200).json({ status: 204 });
