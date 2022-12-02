@@ -1,6 +1,7 @@
 import read from "../read.js";
 import write from "../write.js";
 import { validationResult } from "express-validator";
+import ApiError from "../error/apiError.js";
 
 export default class UserTaskController {
   async get(req, res) {
@@ -40,7 +41,7 @@ export default class UserTaskController {
     }
   }
 
-  async post(req, res) {
+  async post(req, res, next) {
     try {
       const tasks = read();
       const newTask = {
@@ -57,7 +58,7 @@ export default class UserTaskController {
     }
   }
 
-  async delete(req, res) {
+  async delete(req, res, next) {
     try {
       const id = req.params.id;
       const tasks = read();
@@ -77,14 +78,8 @@ export default class UserTaskController {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      if (req.body.name.trim() === "") {
-        return res.status(400).json({ massege: "task not create" });
-      }
-
       const tasks = read();
-      if (tasks.find((item) => item.name === req.body.name)) {
-        return res.status(400).json({ massege: "name already exists" });
-      }
+
       const id = +req.params.id;
       const { name, done, createdAt } = req.body;
       const index = tasks.findIndex((item) => +item.uuid === +id);

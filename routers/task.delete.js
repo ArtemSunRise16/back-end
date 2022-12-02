@@ -1,5 +1,5 @@
 import Router from "express";
-import UserTaskController from "../userTasksControllers/controller.js";
+import UserTaskController from "../Controllers/tasksController.js";
 
 const router = new Router();
 

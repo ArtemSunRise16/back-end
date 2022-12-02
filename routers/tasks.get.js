@@ -1,10 +1,10 @@
 import Router from "express";
-import UserTaskController from "../userTasksControllers/controller.js";
+import UserTaskController from "../Controllers/tasksController.js";
 
 const router = new Router();
 
 const getCont = new UserTaskController();
 
-router.post(process.env.API_URL_TASK, getCont.post);
+router.get(`${process.env.API_URL_TASK}s`, getCont.get);
 
 export default router;
