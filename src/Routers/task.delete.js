@@ -1,5 +1,5 @@
 const Router = require("express");
-const { read, write } = require("../Data/tasksReadWrite.js");
+const { read, write } = require("../Utils/tasksReadWrite.js");
 const { validationResult } = require("express-validator");
 const ApiError = require("../Error/apiError.js");
 

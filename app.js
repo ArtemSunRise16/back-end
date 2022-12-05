@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(error);
 app.use(errorHandler);
 
-recursive(`${__dirname}/src/routers`).forEach((file) =>
+recursive(`${__dirname}/src/Routers`).forEach((file) =>
   app.use("/api", require(file))
 );
 
