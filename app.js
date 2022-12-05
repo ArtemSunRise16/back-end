@@ -1,12 +1,11 @@
-import express from "express";
-import config from "config";
-import {} from "dotenv/config";
-import collector from "./src/routers/collector.js";
-import errorHandler from "./src/Middleware/errorMiddleWareHandler.js";
-import { error } from "./src/Middleware/errorMiddleWareHandler.js";
+const express = require("express");
+require("dotenv").config();
+const collector = require("./src/routers/collector.js");
+const errorHandler = require("./src/Middleware/errorMiddleWareHandler.js");
+const error = require("./src/Middleware/errorMiddleWareHandler.js");
 
 const app = express();
-const PORT = config.get("serverPort");
+const PORT = 8000;
 app.use(express.json());
 app.use(error);
 app.use("/api", collector);

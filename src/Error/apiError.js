@@ -1,4 +1,4 @@
-export default class ApiError extends Error {
+module.exports = class ApiError extends Error {
   constructor(status, massege) {
     super();
     this.status = status;
@@ -16,4 +16,4 @@ export default class ApiError extends Error {
   static internal(massege) {
     return new ApiError(500, massege);
   }
-}
+};

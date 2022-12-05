@@ -1,9 +1,8 @@
-import Router from "express";
-import { body, param } from "express-validator";
-import { read, write } from "../Data/tasksReadWrite.js";
-import { validationResult } from "express-validator";
-
-import ApiError from "../Error/apiError.js";
+const Router = require("express");
+const { body, param } = require("express-validator");
+const { read, write } = require("../Data/tasksReadWrite.js");
+const { validationResult } = require("express-validator");
+const ApiError = require("../Error/apiError.js");
 
 const router = new Router();
 
@@ -41,4 +40,4 @@ router.patch(
   }
 );
 
-export default router;
+module.exports = router;

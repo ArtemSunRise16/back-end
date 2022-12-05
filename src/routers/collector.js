@@ -1,6 +1,14 @@
-import routerGet from "./tasks.get.js";
-import routerPost from "./task.post.js";
-import routerDelete from "./task.delete.js";
-import routerPatch from "./task.patch.js";
+const Router = require("express");
+const router = new Router();
 
-export default [routerGet, routerPost, routerDelete, routerPatch];
+const routerGet = require("./tasks.get.js");
+const routerPost = require("./task.post.js");
+const routerDelete = require("./task.delete.js");
+const routerPatch = require("./task.patch.js");
+
+router.use(routerGet);
+router.use(routerPatch);
+router.use(routerPost);
+router.use(routerDelete);
+
+module.exports = router;

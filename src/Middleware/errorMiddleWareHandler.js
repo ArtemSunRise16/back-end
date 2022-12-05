@@ -1,14 +1,14 @@
-import ApiError from "../Error/apiError.js";
-import { read, write } from "../Data/tasksReadWrite.js";
+const ApiError = require("../Error/apiError.js");
+const { read, write } = require("../Data/tasksReadWrite.js");
 
-export default function (err, req, res, next) {
+const api = function (err, req, res, next) {
   if (err instanceof ApiError) {
     return res.status(err.status).json({ massege: err.massege });
   }
   return res.status(500).json({ massege: "error server" });
-}
+};
 
-export const error = (req, res, next) => {
+const error = (req, res, next) => {
   for (let key in req.body) {
     if (key === "name" || key === "done" || key === "createdAt") {
       continue;
@@ -34,3 +34,6 @@ export const error = (req, res, next) => {
   }
   next();
 };
+
+module.exports = api;
+module.exports = error;

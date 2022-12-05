@@ -1,8 +1,7 @@
-import Router from "express";
-import { read, write } from "../Data/tasksReadWrite.js";
-import { validationResult } from "express-validator";
-
-import ApiError from "../Error/apiError.js";
+const Router = require("express");
+const { read, write } = require("../Data/tasksReadWrite.js");
+const { validationResult } = require("express-validator");
+const ApiError = require("../Error/apiError.js");
 
 const router = new Router();
 
@@ -27,4 +26,4 @@ router.delete(`${process.env.API_URL_TASK}/:id`, (req, res, next) => {
   }
 });
 
-export default router;
+module.exports = router;
