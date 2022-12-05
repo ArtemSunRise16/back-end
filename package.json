@@ -14,9 +14,13 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-validator": "^6.14.2",
-    "recursive-readdir-sync": "^1.0.6"
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "recursive-readdir-sync": "^1.0.6",
+    "sequelize": "^6.26.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "sequelize-cli": "^6.5.2"
   }
 }
