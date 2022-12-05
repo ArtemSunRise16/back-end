@@ -19,26 +19,21 @@ router.post(
         return res.status(400).json({ errors: errors.array() });
       }
 
-      for (let key in req.body) {
-        if (key === "name" || key === "done" || key === "createdAt") {
-          continue;
-        } else {
-          res.json(ApiError.badRequest("invallid fields requests"));
-        }
-      }
-
       const tasks = await read();
 
       if (tasks.find((item) => item.name === req.body.name)) {
-        res.json(ApiError.badRequest("name already exists"));
+        return res.json(ApiError.badRequest("name already exists"));
       }
 
       if (req.body.name.trim() === "") {
         return res.json(ApiError.badRequest("task not create"));
       }
 
+      const { name, done, createdAt } = req.body;
       const newTask = {
-        ...req.body,
+        name,
+        done,
+        createdAt,
         uuid: Date.now(),
         dateForSort: Date.now(),
       };
