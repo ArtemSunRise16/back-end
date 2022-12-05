@@ -5,10 +5,9 @@ const { validationResult } = require("express-validator");
 
 const router = new Router();
 
-router.get(`${process.env.API_URL_TASK}s`, (req, res, next) => {
+router.get(`${process.env.API_URL_TASK}s`, async (req, res, next) => {
   try {
-    let sortedState = read();
-
+    let sortedState = await read();
     if (req.query.order === "asc") {
       sortedState.sort((a, b) => a.dateForSort - b.dateForSort);
     } else if (req.query.order === "desc") {
@@ -23,9 +22,8 @@ router.get(`${process.env.API_URL_TASK}s`, (req, res, next) => {
       filtredTasks = sortedState.filter((item) => item.done === false);
     }
 
-    // Добавить условие на проверку page
-    const currentPage = req.query.page; // current page query - page
-    const todosPrePage = req.query.pp; // всего задачь на странице query - pp
+    const currentPage = req.query.page;
+    const todosPrePage = req.query.pp;
     const lastTodoIndex = currentPage * todosPrePage;
     const firstTodoIndex = lastTodoIndex - todosPrePage;
     const currentTodoPage = filtredTasks.slice(firstTodoIndex, lastTodoIndex);

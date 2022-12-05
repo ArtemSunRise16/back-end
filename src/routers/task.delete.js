@@ -5,16 +5,17 @@ const ApiError = require("../Error/apiError.js");
 
 const router = new Router();
 
-router.delete(`${process.env.API_URL_TASK}/:id`, (req, res, next) => {
+router.delete(`${process.env.API_URL_TASK}/:id`, async (req, res, next) => {
   try {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
     const id = req.params.id;
-    const tasks = read();
-    if (tasks.find((item) => item.uuid !== id)) {
+    const tasks = await read();
+    if (!tasks.find((item) => item.uuid === id)) {
       return res.json(ApiError.notFound("id not found"));
     }
     const deletTask = tasks.filter((item) => +item.uuid !== +id);
