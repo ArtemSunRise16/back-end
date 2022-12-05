@@ -10,7 +10,7 @@ const api = function (err, req, res, next) {
 
 const error = (req, res, next) => {
   for (let key in req.body) {
-    if (key === "name" || key === "done" || key === "createdAt") {
+    if (key === "name" || key === "done") {
       continue;
     } else {
       res.json(ApiError.badRequest("invallid fields requests"));

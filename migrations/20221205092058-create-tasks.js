@@ -10,10 +10,12 @@ module.exports = {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
+        unique: true,
       },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
       done: {
         type: DataTypes.BOOLEAN,
