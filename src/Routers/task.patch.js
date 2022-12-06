@@ -9,7 +9,12 @@ const router = new Router();
 router.patch(
   `${process.env.API_URL_TASK}/:id`,
   param("id").notEmpty(),
-  body("name").isLength({ max: 255 }).withMessage("Title too long").notEmpty(),
+  body("name")
+    .trim()
+    .withMessage("task not create")
+    .isLength({ max: 255 })
+    .withMessage("Title too long")
+    .notEmpty(),
   body("done").notEmpty().isBoolean(),
   body("createdAt").notEmpty(),
   async (req, res, next) => {
@@ -22,10 +27,6 @@ router.patch(
       }
 
       const tasks = await read();
-
-      if (req.body.name.trim() === "") {
-        return res.json(ApiError.badRequest("task not create"));
-      }
 
       if (
         tasks.find((item) => item.uuid === id && item.done === req.body.done)

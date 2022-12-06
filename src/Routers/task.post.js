@@ -8,7 +8,12 @@ const router = new Router();
 
 router.post(
   process.env.API_URL_TASK,
-  body("name").isLength({ max: 255 }).withMessage("Title too long").notEmpty(),
+  body("name")
+    .trim()
+    .withMessage("task not create")
+    .isLength({ max: 255 })
+    .withMessage("Title too long")
+    .notEmpty(),
   body("done").notEmpty().isBoolean(),
   body("createdAt").notEmpty(),
   async (req, res, next) => {
@@ -23,10 +28,6 @@ router.post(
 
       if (tasks.find((item) => item.name === req.body.name)) {
         return res.json(ApiError.badRequest("name already exists"));
-      }
-
-      if (req.body.name.trim() === "") {
-        return res.json(ApiError.badRequest("task not create"));
       }
 
       const { name, done, createdAt } = req.body;
