@@ -10,10 +10,10 @@ router.post(
   process.env.API_URL_TASK,
   body("name")
     .trim()
-    .withMessage("task not create")
+    .notEmpty()
+    .withMessage("task not empty")
     .isLength({ max: 255 })
-    .withMessage("Title too long")
-    .notEmpty(),
+    .withMessage("Title too long"),
   body("done").notEmpty().isBoolean(),
   body("createdAt").notEmpty(),
   async (req, res, next) => {

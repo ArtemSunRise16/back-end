@@ -11,10 +11,10 @@ router.patch(
   param("id").notEmpty(),
   body("name")
     .trim()
-    .withMessage("task not create")
+    .notEmpty()
+    .withMessage("task not empty")
     .isLength({ max: 255 })
-    .withMessage("Title too long")
-    .notEmpty(),
+    .withMessage("Title too long"),
   body("done").notEmpty().isBoolean(),
   body("createdAt").notEmpty(),
   async (req, res, next) => {
@@ -28,16 +28,14 @@ router.patch(
 
       const tasks = await read();
 
-      if (
-        tasks.find((item) => item.uuid === id && item.done === req.body.done)
-      ) {
-        if (tasks.find((item) => item.name === req.body.name)) {
-          return res.json(ApiError.badRequest("task not create"));
-        }
+      const findTask = tasks.find((item) => item.name === req.body.name);
+
+      if (findTask && findTask.uuid === id && findTask.done === req.body.done) {
+        return res.json(ApiError.badRequest("Task is already exists"));
       }
 
-      if (tasks.find((item) => item.name === req.body.name)) {
-        return res.json(ApiError.badRequest("task not create"));
+      if (findTask && findTask.uuid !== id) {
+        return res.json(ApiError.badRequest("Name already exists"));
       }
 
       const { name, done, createdAt } = req.body;
