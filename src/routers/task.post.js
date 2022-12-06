@@ -8,7 +8,12 @@ const router = new Router();
 
 router.post(
   process.env.API_URL_TASK,
-  body("name").isLength({ max: 255 }).withMessage("Title too long").notEmpty(),
+  body("name")
+    .trim()
+    .notEmpty()
+    .withMessage("Field not empty")
+    .isLength({ max: 255 })
+    .withMessage("Title too long"),
   body("done").notEmpty().isBoolean(),
   async (req, res, next) => {
     try {
@@ -20,7 +25,9 @@ router.post(
 
       const createdAt = new Date();
       const { name, done } = req.body;
-      const task = await db.Tasks.create({ name, done, createdAt });
+      const task = await db.Tasks.create({ name, done, createdAt }).catch((e) =>
+        res.json(e.errors)
+      );
 
       res.status(201).json({ status: 201, massegee: "Successfully" });
     } catch (error) {

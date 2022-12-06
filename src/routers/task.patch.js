@@ -9,7 +9,12 @@ const router = new Router();
 router.patch(
   `${process.env.API_URL_TASK}/:id`,
   param("id").notEmpty(),
-  body("name").isLength({ max: 255 }).withMessage("Title too long").notEmpty(),
+  body("name")
+    .trim()
+    .notEmpty()
+    .withMessage("Field not empty")
+    .isLength({ max: 255 })
+    .withMessage("Title too long"),
   body("done").notEmpty().isBoolean(),
   async (req, res, next) => {
     try {
@@ -18,6 +23,7 @@ router.patch(
         return res.status(400).json({ errors: errors.array() });
       }
 
+      // не меняет чекбокс, отслеживание имени и должно идтти в express
       const id = req.params.id;
       const { name, done } = req.body;
       const createdAt = new Date();
@@ -28,7 +34,7 @@ router.patch(
             uuid: id,
           },
         }
-      );
+      ).catch((e) => res.json(e.errors));
 
       res.status(200).json({ status: 200, massege: "Successfully" });
     } catch (error) {
