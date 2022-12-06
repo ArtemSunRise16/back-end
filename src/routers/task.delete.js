@@ -20,6 +20,10 @@ router.delete(`${process.env.API_URL_TASK}/:id`, async (req, res, next) => {
       },
     });
 
+    if (!deletTasks) {
+      return res.json(ApiError.notFound("Not found"));
+    }
+
     res.status(200).json({ status: 204, massege: "Successfully" });
   } catch (error) {
     console.log(error);

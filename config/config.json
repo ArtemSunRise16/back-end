@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "postgres",
-    "password": "Artyom",
-    "database": "todo_list",
+    "password": "",
+    "database": "",
     "host": "localhost",
     "dialect": "postgres"
   },

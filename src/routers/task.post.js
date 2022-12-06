@@ -22,9 +22,20 @@ router.post(
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
+      // поиск на одинаковое имя реализовать
+      const { name, done } = req.body;
+
+      const findName = await db.Tasks.findOne({
+        where: {
+          name: name,
+        },
+      });
+
+      if (findName) {
+        return res.json(ApiError.badRequest("Name already exist"));
+      }
 
       const createdAt = new Date();
-      const { name, done } = req.body;
       const task = await db.Tasks.create({ name, done, createdAt }).catch((e) =>
         res.json(e.errors)
       );
