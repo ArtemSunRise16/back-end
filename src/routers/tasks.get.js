@@ -1,6 +1,6 @@
 const Router = require("express");
-const { read, write } = require("../Utils/tasksReadWrite.js");
-const ApiError = require("../Error/apiError.js");
+const { read, write } = require("../utils/tasksReadWrite.js");
+const ApiError = require("../error/apiError.js");
 const { validationResult } = require("express-validator");
 
 const router = new Router();
