@@ -1,7 +1,7 @@
 const Router = require("express");
 const { body, param } = require("express-validator");
 const { validationResult } = require("express-validator");
-const ApiError = require("../Error/apiError.js");
+const ApiError = require("../error/apiError.js");
 const db = require("../../models");
 
 const router = new Router();
@@ -47,7 +47,7 @@ module.exports = router.patch(
             uuid: id,
           },
         }
-      ).catch((e) => res.json(e.errors));
+      );
 
       res.status(200).json({ status: 200, massege: "Successfully" });
     } catch (error) {

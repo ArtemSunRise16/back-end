@@ -1,7 +1,7 @@
 const express = require("express");
 const recursive = require("recursive-readdir-sync");
 require("dotenv").config();
-const errorHandler = require("./src/Middleware/errorMiddleWareHandler.js");
+const errorHandler = require("./src/middleware/errorMiddleWareHandler.js");
 const db = require("./models");
 const cors = require("cors");
 
@@ -15,7 +15,7 @@ const start = async () => {
     app.use(express.json());
     app.use(cors());
 
-    recursive(`${__dirname}/src/Routers`).forEach((file) =>
+    recursive(`${__dirname}/src/routers`).forEach((file) =>
       app.use("/api", require(file))
     );
 

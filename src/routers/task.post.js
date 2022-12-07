@@ -1,7 +1,7 @@
 const Router = require("express");
 const { body } = require("express-validator");
 const { validationResult } = require("express-validator");
-const ApiError = require("../Error/apiError.js");
+const ApiError = require("../error/apiError.js");
 const db = require("../../models");
 
 const router = new Router();
@@ -35,9 +35,7 @@ module.exports = router.post(
         return res.status(400).json(ApiError.badRequest("Name already exist"));
       }
 
-      const task = await db.Tasks.create({ name, done, createdAt }).catch((e) =>
-        res.json(e.errors)
-      );
+      const task = await db.Tasks.create({ name, done, createdAt });
 
       res.status(201).json({ status: 201, massegee: "Successfully" });
     } catch (error) {

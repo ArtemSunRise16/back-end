@@ -1,5 +1,5 @@
 const Router = require("express");
-const ApiError = require("../Error/apiError.js");
+const ApiError = require("../error/apiError.js");
 const db = require("../../models/index.js");
 const { validationResult, query } = require("express-validator");
 const constants = require("../constants/constants.js");
