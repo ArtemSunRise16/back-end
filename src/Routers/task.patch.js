@@ -6,7 +6,7 @@ const db = require("../../models");
 
 const router = new Router();
 
-router.patch(
+module.exports = router.patch(
   `${process.env.API_URL_TASK}/:id`,
   param("id").notEmpty(),
   body("name")
@@ -23,10 +23,23 @@ router.patch(
         return res.status(400).json({ errors: errors.array() });
       }
 
-      // не меняет чекбокс, отслеживание имени и должно идтти в express
+      const { name, done, createdAt } = req.body;
       const id = req.params.id;
-      const { name, done } = req.body;
-      const createdAt = new Date();
+
+      const findTask = await db.Tasks.findOne({
+        where: {
+          name: name,
+        },
+      });
+
+      if (findTask && findTask.uuid === id && findTask.done === done) {
+        return res.status(400).json(ApiError.badRequest("Task already exists"));
+      }
+
+      if (findTask && findTask.uuid !== id) {
+        return res.status(400).json(ApiError.badRequest("Name already exists"));
+      }
+
       const updateTask = await db.Tasks.update(
         { name, done, createdAt },
         {
@@ -39,9 +52,7 @@ router.patch(
       res.status(200).json({ status: 200, massege: "Successfully" });
     } catch (error) {
       console.log(error);
-      res.json(ApiError.internal("Error on server"));
+      res.status(500).json(ApiError.internal("Error on server"));
     }
   }
 );
-
-module.exports = router;

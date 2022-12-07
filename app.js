@@ -1,9 +1,9 @@
 const express = require("express");
+const recursive = require("recursive-readdir-sync");
 require("dotenv").config();
-const collector = require("./src/routers/collector.js");
 const errorHandler = require("./src/Middleware/errorMiddleWareHandler.js");
-const error = require("./src/Middleware/errorMiddleWareHandler.js");
 const db = require("./models");
+const cors = require("cors");
 
 const start = async () => {
   try {
@@ -13,10 +13,13 @@ const start = async () => {
     await db.sequelize.authenticate();
 
     app.use(express.json());
-    app.use(error);
-    app.use("/api", collector);
-    app.use(errorHandler);
+    app.use(cors());
 
+    recursive(`${__dirname}/src/Routers`).forEach((file) =>
+      app.use("/api", require(file))
+    );
+
+    app.use(errorHandler);
     app.listen(PORT, () => {
       console.log("Server has been started on PORT", PORT);
     });

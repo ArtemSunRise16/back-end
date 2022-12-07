@@ -6,7 +6,7 @@ const db = require("../../models");
 
 const router = new Router();
 
-router.post(
+module.exports = router.post(
   process.env.API_URL_TASK,
   body("name")
     .trim()
@@ -22,8 +22,8 @@ router.post(
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-      // поиск на одинаковое имя реализовать
-      const { name, done } = req.body;
+
+      const { name, done, createdAt } = req.body;
 
       const findName = await db.Tasks.findOne({
         where: {
@@ -32,10 +32,9 @@ router.post(
       });
 
       if (findName) {
-        return res.json(ApiError.badRequest("Name already exist"));
+        return res.status(400).json(ApiError.badRequest("Name already exist"));
       }
 
-      const createdAt = new Date();
       const task = await db.Tasks.create({ name, done, createdAt }).catch((e) =>
         res.json(e.errors)
       );
@@ -43,9 +42,7 @@ router.post(
       res.status(201).json({ status: 201, massegee: "Successfully" });
     } catch (error) {
       console.log(error);
-      res.json(ApiError.internal("Error on server"));
+      res.status(500).json(ApiError.internal("Error on server"));
     }
   }
 );
-
-module.exports = router;
