@@ -8,7 +8,8 @@ module.exports = development = {
   host: process.env.DATABASE_HOST,
   dialectOptions: {
     ssl: {
-      require: "true",
+      require: true,
+      rejectUnauthorized: false,
     },
   },
 };
@@ -20,7 +21,8 @@ module.exports = test = {
   host: process.env.DATABASE_HOST,
   dialectOptions: {
     ssl: {
-      require: "true",
+      require: true,
+      rejectUnauthorized: false,
     },
   },
 };
@@ -32,7 +34,8 @@ module.exports = production = {
   host: process.env.DATABASE_HOST,
   dialectOptions: {
     ssl: {
-      require: "true",
+      require: true,
+      rejectUnauthorized: false,
     },
   },
 };
