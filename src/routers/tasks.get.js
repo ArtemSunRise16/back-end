@@ -9,6 +9,7 @@ const router = new Router();
 module.exports = router.get(
   `${process.env.API_URL_TASK}s`,
   query("filterBy").trim(),
+  query("order").trim(),
   async (req, res, next) => {
     try {
       const errors = validationResult(req);

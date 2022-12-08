@@ -1,5 +1,4 @@
 const Router = require("express");
-const { validationResult } = require("express-validator");
 const db = require("../../models/index.js");
 const ApiError = require("../error/apiError.js");
 
@@ -9,12 +8,6 @@ module.exports = router.delete(
   `${process.env.API_URL_TASK}/:id`,
   async (req, res, next) => {
     try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
       const uuid = req.params.id;
       const deletTasks = await db.Tasks.destroy({
         where: {

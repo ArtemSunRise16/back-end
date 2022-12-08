@@ -1,24 +1,17 @@
 const Router = require("express");
-const { body } = require("express-validator");
 const { validationResult } = require("express-validator");
 const ApiError = require("../error/apiError.js");
 const db = require("../../models");
+const validation = require("../middleware/validationMiddleWareHandler.js");
 
 const router = new Router();
 
 module.exports = router.post(
   process.env.API_URL_TASK,
-  body("name")
-    .trim()
-    .notEmpty()
-    .withMessage("Field not empty")
-    .isLength({ max: 255 })
-    .withMessage("Title too long"),
-  body("done").notEmpty().isBoolean(),
+  validation(),
   async (req, res, next) => {
     try {
       const errors = validationResult(req);
-
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
@@ -35,7 +28,7 @@ module.exports = router.post(
         return res.status(400).json(ApiError.badRequest("Name already exist"));
       }
 
-      const task = await db.Tasks.create({ name, done, createdAt });
+      await db.Tasks.create({ name, done, createdAt });
 
       res.status(201).json({ status: 201, massegee: "Successfully" });
     } catch (error) {
