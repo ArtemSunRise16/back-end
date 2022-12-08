@@ -14,7 +14,7 @@ package.json - file containing all npm project details, scripts and dependencies
 
 .gitignore - files you don't want to push to git
 
-POST REQUEST: http://localhost:8000/api/process.env.API_URL_TASK
+POST REQUEST: https://tododackend.onrender.com/api/process.env.API_URL_TASK
 
 body:
 {
@@ -23,9 +23,9 @@ body:
 "createdAt": "11/30/2022, 12:43:17 PM"
 }
 
-DELETE REQUEST: http://localhost:8000/api/process.env.API_URL_TASK/:id
+DELETE REQUEST: https://tododackend.onrender.com/api/process.env.API_URL_TASK/:id
 
-PATCH REQUEST: http://localhost:8000/api/process.env.API_URL_TASK/:id
+PATCH REQUEST: https://tododackend.onrender.com/api/process.env.API_URL_TASK/:id
 body:
 {
 "name": "string",
@@ -33,7 +33,7 @@ body:
 "createdAt": "11/30/2022, 12:43:17 PM"
 }
 
-GET REQUEST: http://localhost:8000/api/process.env.API_URL_TASKs?pp=&page=&filterBy=&order
+GET REQUEST: https://tododackend.onrender.com/api/process.env.API_URL_TASKs?pp=&page=&filterBy=&order
 
 pp - number of tasks per page
 page - current page
