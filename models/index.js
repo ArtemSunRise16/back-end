@@ -10,19 +10,27 @@ const config = require("../config/config.js");
 const db = {};
 
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+if (config.development.use_env_variable) {
+  sequelize = new Sequelize(
+    process.env[config.development.use_env_variable],
+    config.development
+  );
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, {
-    host: config.host,
-    dialect: "postgres",
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
-  });
+  sequelize = new Sequelize(
+    config.development.database,
+    config.development.username,
+    config.development.password,
+    {
+      host: config.development.host,
+      dialect: "postgres",
+      // dialectOptions: {
+      //   ssl: {
+      //     require: true,
+      //     rejectUnauthorized: false,
+      //   },
+      // },
+    }
+  );
 }
 
 fs.readdirSync(__dirname)
