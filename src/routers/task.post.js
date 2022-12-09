@@ -1,24 +1,22 @@
 const Router = require("express");
-const { validationResult } = require("express-validator");
 const ApiError = require("../error/apiError.js");
-const db = require("../../models");
-const validation = require("../middleware/validationMiddleWareHandler.js");
+const Tasks = require("../../models/tasks");
+const {
+  validate,
+  error,
+} = require("../middleware/validationMiddleWareHandler.js");
 
 const router = new Router();
 
 module.exports = router.post(
   process.env.API_URL_TASK,
-  validation(),
+  validate,
+  error,
   async (req, res, next) => {
     try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
       const { name, done, createdAt } = req.body;
 
-      const findName = await db.Tasks.findOne({
+      const findName = await Tasks.findOne({
         where: {
           name: name,
         },
@@ -28,7 +26,7 @@ module.exports = router.post(
         return res.status(400).json(ApiError.badRequest("Name already exist"));
       }
 
-      await db.Tasks.create({ name, done, createdAt });
+      await Tasks.create({ name, done, createdAt });
 
       res.status(201).json({ status: 201, massegee: "Successfully" });
     } catch (error) {

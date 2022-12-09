@@ -1,5 +1,5 @@
 const Router = require("express");
-const db = require("../../models/index.js");
+const { User } = require("../../models/user.js");
 const bcrypt = require("bcryptjs");
 
 const ApiError = require("../error/apiError.js");
@@ -10,7 +10,7 @@ module.exports = router.post("/register", async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
-    const candidate = await db.User.findOne({
+    const candidate = await User.findOne({
       where: {
         username,
       },
@@ -25,7 +25,7 @@ module.exports = router.post("/register", async (req, res, next) => {
 
     const hashPassword = bcrypt.hashSync(password, 6);
 
-    await db.User.create({ username, password: hashPassword }); // регистрация пользователя
+    await User.create({ username, password: hashPassword }); // регистрация пользователя
 
     res.status(201).json({ status: 201, messegee: "Successfully" });
   } catch (error) {

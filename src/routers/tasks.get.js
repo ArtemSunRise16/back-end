@@ -1,6 +1,6 @@
 const Router = require("express");
 const ApiError = require("../error/apiError.js");
-const db = require("../../models/index.js");
+const Tasks = require("../../models/tasks");
 const { validationResult, query } = require("express-validator");
 const constants = require("../constants/constants.js");
 
@@ -24,7 +24,7 @@ module.exports = router.get(
       let limit = pp || 5;
       let offset = page * limit - limit;
 
-      filtredTasks = await db.Tasks.findAndCountAll({
+      filtredTasks = await Tasks.findAndCountAll({
         where: {
           done:
             (filterBy === constants.done && true) ||
