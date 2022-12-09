@@ -16,7 +16,7 @@ module.exports = router.patch(
   error,
   async (req, res, next) => {
     try {
-      const { name, done, createdAt } = req.body;
+      const { name, done } = req.body;
       const id = req.params.id;
 
       const findTask = await Tasks.findOne({
@@ -34,7 +34,7 @@ module.exports = router.patch(
       }
 
       await Tasks.update(
-        { name, done, createdAt },
+        { name, done },
         {
           where: {
             uuid: id,
