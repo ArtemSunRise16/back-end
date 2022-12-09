@@ -4,6 +4,7 @@ require("dotenv").config();
 const errorHandler = require("./src/middleware/errorMiddleWareHandler.js");
 const db = require("./models");
 const cors = require("cors");
+const reg = require("./src/user/user.routers.js");
 
 const start = async () => {
   try {
@@ -18,6 +19,7 @@ const start = async () => {
     recursive(`${__dirname}/src/routers`).forEach((file) =>
       app.use("/api", require(file))
     );
+    app.use("/user", reg);
 
     app.use(errorHandler);
     app.listen(PORT, () => {
