@@ -1,5 +1,5 @@
 const Router = require("express");
-const { User } = require("../../models/user.js");
+const User = require("../../models/user.js");
 const bcrypt = require("bcryptjs");
 
 const ApiError = require("../error/apiError.js");
@@ -27,7 +27,7 @@ module.exports = router.post("/register", async (req, res, next) => {
 
     await User.create({ username, password: hashPassword }); // регистрация пользователя
 
-    res.status(201).json({ status: 201, messegee: "Successfully" });
+    res.status(201).json({ status: 201, messegee: "Account created" });
   } catch (error) {
     res.status(500).json(ApiError.internal("Error on server"));
   }

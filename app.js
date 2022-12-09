@@ -4,7 +4,9 @@ require("dotenv").config();
 const errorHandler = require("./src/middleware/errorMiddleWareHandler.js");
 const db = require("./models");
 const cors = require("cors");
-const reg = require("./src/user/user.routers.js");
+const reg = require("./src/user/user.register.js");
+const log = require("./src/user/user.login.js");
+const del = require("./src/user/user.delete.js");
 
 const start = async () => {
   try {
@@ -20,6 +22,8 @@ const start = async () => {
       app.use("/api", require(file))
     );
     app.use("/user", reg);
+    app.use("/user", log);
+    app.use("/user", del);
 
     app.use(errorHandler);
     app.listen(PORT, () => {
