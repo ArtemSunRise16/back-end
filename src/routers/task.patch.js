@@ -1,27 +1,25 @@
 const Router = require("express");
 const { param } = require("express-validator");
-const { validationResult } = require("express-validator");
 const ApiError = require("../error/apiError.js");
-const db = require("../../models");
-const validation = require("../middleware/validationMiddleWareHandler.js");
+const Tasks = require("../../models/tasks.js");
+const {
+  error,
+  validator,
+} = require("../middleware/validationMiddleWareHandler.js");
 
 const router = new Router();
 
 module.exports = router.patch(
   `${process.env.API_URL_TASK}/:id`,
   param("id").notEmpty(),
-  validation(),
+  validator,
+  error,
   async (req, res, next) => {
     try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-
       const { name, done, createdAt } = req.body;
       const id = req.params.id;
 
-      const findTask = await db.Tasks.findOne({
+      const findTask = await Tasks.findOne({
         where: {
           name: name,
         },
@@ -35,7 +33,7 @@ module.exports = router.patch(
         return res.status(400).json(ApiError.badRequest("Name already exists"));
       }
 
-      await db.Tasks.update(
+      await Tasks.update(
         { name, done, createdAt },
         {
           where: {

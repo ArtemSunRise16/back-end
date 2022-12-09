@@ -1,5 +1,5 @@
 const Router = require("express");
-const db = require("../../models/index.js");
+const Tasks = require("../../models/tasks.js");
 const ApiError = require("../error/apiError.js");
 
 const router = new Router();
@@ -9,7 +9,7 @@ module.exports = router.delete(
   async (req, res, next) => {
     try {
       const uuid = req.params.id;
-      const deletTasks = await db.Tasks.destroy({
+      const deletTasks = await Tasks.destroy({
         where: {
           uuid,
         },
