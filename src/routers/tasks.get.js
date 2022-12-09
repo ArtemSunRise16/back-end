@@ -3,6 +3,7 @@ const ApiError = require("../error/apiError.js");
 const Tasks = require("../../models/tasks");
 const { validationResult, query } = require("express-validator");
 const constants = require("../constants/constants.js");
+const { authorizationHalper } = require("../middleware/authMiddleWareHandler");
 
 const router = new Router();
 
@@ -10,6 +11,7 @@ module.exports = router.get(
   `${process.env.API_URL_TASK}s`,
   query("filterBy").trim(),
   query("order").trim(),
+  authorizationHalper,
   async (req, res, next) => {
     try {
       const errors = validationResult(req);

@@ -2,13 +2,8 @@ const Router = require("express");
 const router = new Router();
 const User = require("../../models/user.js");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const { generateAccessToken } = require("../service/token.service");
 require("dotenv").config();
-
-const generateAccessToken = (uuid) => {
-  const payload = uuid;
-  return jwt.sign({ payload }, process.env.SECRET, { expiresIn: "24h" });
-};
 
 module.exports = router.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
@@ -31,5 +26,5 @@ module.exports = router.post("/login", async (req, res, next) => {
 
   const token = generateAccessToken(user.userId);
 
-  return res.json({ token });
+  return res.json({ accessToken: token });
 });
