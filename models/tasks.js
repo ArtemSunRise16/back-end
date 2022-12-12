@@ -1,9 +1,10 @@
 "use strict";
 const { Model, DataTypes } = require("sequelize");
 const { sequelize } = require("../models/index.js");
+const User = require("./user");
 
 class Tasks extends Model {
-  static associate(models) {}
+  static associate() {}
 }
 Tasks.init(
   {
@@ -21,6 +22,16 @@ Tasks.init(
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: "User",
+        key: "id",
+      },
+      onUpdate: "cascade",
+      onDelete: "cascade",
+    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,
@@ -35,5 +46,7 @@ Tasks.init(
     modelName: "Tasks",
   }
 );
+
+// Tasks.belongsTo(User, { foreignKey: "userId" });
 
 module.exports = Tasks;

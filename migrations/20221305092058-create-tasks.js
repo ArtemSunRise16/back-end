@@ -4,7 +4,7 @@ const { DataTypes } = require("sequelize");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface) {
     await queryInterface.createTable("Tasks", {
       uuid: {
         type: DataTypes.UUID,
@@ -20,6 +20,16 @@ module.exports = {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
+      userId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        onUpdate: "cascade",
+        onDelete: "cascade",
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
@@ -30,7 +40,7 @@ module.exports = {
       },
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable("Tasks");
   },
 };

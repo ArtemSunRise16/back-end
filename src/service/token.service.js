@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const generateAccessToken = (uuid) => {
   const payload = uuid;
-  return jwt.sign({ payload }, process.env.SECRET, { expiresIn: "24h" });
+  return jwt.sign({ payload }, process.env.SECRET, { expiresIn: "30d" });
 };
 
 const validateAccessToken = (token) => {

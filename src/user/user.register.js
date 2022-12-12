@@ -27,7 +27,7 @@ module.exports = router.post("/register", async (req, res, next) => {
 
     const user = await User.create({ username, password: hashPassword }); // регистрация пользователя
 
-    const token = generateAccessToken(user.userID);
+    const token = generateAccessToken(user.id);
 
     res.json({ accessToken: token });
   } catch (error) {

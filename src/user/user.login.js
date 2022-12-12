@@ -24,7 +24,7 @@ module.exports = router.post("/login", async (req, res, next) => {
     res.status(400).json({ status: 400, message: "Invalid password" });
   }
 
-  const token = generateAccessToken(user.userId);
+  const token = generateAccessToken(user.id);
 
   return res.json({ accessToken: token });
 });

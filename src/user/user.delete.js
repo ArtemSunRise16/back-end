@@ -7,7 +7,7 @@ module.exports = router.delete("/delete/:id", async (req, res, next) => {
   try {
     const deletUser = await User.destroy({
       where: {
-        userId: req.params.id,
+        id: req.params.id,
       },
     });
     res.status(200).json({ status: 200, message: "User deleted" });

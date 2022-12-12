@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const { validateAccessToken } = require("../service/token.service");
 
 const authorizationHalper = (req, res, next) => {

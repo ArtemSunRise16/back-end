@@ -1,14 +1,15 @@
 "use strict";
 const { Model, DataTypes } = require("sequelize");
 const { sequelize } = require("../models/index.js");
+const Tasks = require("./tasks");
 
 class User extends Model {
-  static associate(models) {}
+  static associate() {}
 }
 
 User.init(
   {
-    userId: {
+    id: {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.UUID,
@@ -38,5 +39,7 @@ User.init(
     modelName: "User",
   }
 );
+
+User.hasMany(Tasks, { foreignKey: "userId" });
 
 module.exports = User;

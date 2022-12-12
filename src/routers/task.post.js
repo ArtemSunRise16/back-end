@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const Router = require("express");
 const ApiError = require("../error/apiError.js");
 const Tasks = require("../../models/tasks");
@@ -5,6 +6,7 @@ const {
   validate,
   error,
 } = require("../middleware/validationMiddleWareHandler.js");
+const User = require("../../models/user.js");
 
 const router = new Router();
 
@@ -15,18 +17,39 @@ module.exports = router.post(
   async (req, res, next) => {
     try {
       const { name, done, createdAt } = req.body;
+      const authorization = req.headers.authorization;
+      const accessToken = authorization.split(" ")[1];
+      const dec = jwt.decode(accessToken);
+      const id = dec.payload;
 
-      const findName = await Tasks.findOne({
+      const user = await User.findOne({
         where: {
-          name: name,
+          id: id,
         },
+      });
+
+      const findName = await User.findOne({
+        include: [
+          {
+            association: "Tasks",
+            where: {
+              name: name,
+              userId: user.id,
+            },
+          },
+        ],
       });
 
       if (findName) {
         return res.status(400).json(ApiError.badRequest("Name already exist"));
       }
 
-      await Tasks.create({ name, done, createdAt });
+      await Tasks.create({
+        name,
+        done,
+        createdAt,
+        userId: user.id,
+      });
 
       res.status(201).json({ status: 201, massegee: "Successfully" });
     } catch (error) {
