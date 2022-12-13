@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const { param } = require("express-validator");
 const ApiError = require("../error/apiError.js");
 const Tasks = require("../../models/tasks");
+const { authorizationHalper } = require("../middleware/authMiddleWareHandler");
+
 const {
   validate,
   error,
@@ -13,16 +15,13 @@ const router = new Router();
 
 module.exports = router.patch(
   `${process.env.API_URL_TASK}/:id`,
+  authorizationHalper,
   param("id").notEmpty(),
   validate,
   error,
   async (req, res, next) => {
     try {
-      const authorization = req.headers.authorization;
-      const accessToken = authorization.split(" ")[1];
-      const dec = jwt.decode(accessToken);
-      const id = dec.payload;
-
+      const id = req.body.usId;
       const { name, done, createdAt } = req.body;
       const taskId = req.params.id;
 
@@ -37,13 +36,27 @@ module.exports = router.patch(
           {
             association: "Tasks",
             where: {
-              userId: user.id,
+              name: name,
+              userId: user.dataValues.id,
             },
           },
         ],
       });
 
-      const findTasks = findTask.Tasks.dataValues;
+      if (!findTask) {
+        await Tasks.update(
+          { name, done, createdAt },
+          {
+            where: {
+              uuid: taskId,
+              userId: user.id,
+            },
+          }
+        );
+        return res.status(200).json({ status: 200, massege: "Successfully" });
+      }
+
+      let findTasks = { ...findTask.Tasks["0"].dataValues };
 
       if (findTasks && findTasks.uuid === taskId && findTasks.done === done) {
         return res.status(400).json(ApiError.badRequest("Task already exists"));

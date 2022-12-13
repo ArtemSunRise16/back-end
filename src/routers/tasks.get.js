@@ -16,16 +16,13 @@ module.exports = router.get(
   query("order").trim(),
   async (req, res, next) => {
     try {
-      const authorization = req.headers.authorization;
-      const accessToken = authorization.split(" ")[1];
-      const dec = jwt.decode(accessToken);
-      const id = dec.payload;
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
       const { pp, page, filterBy, order } = req.query;
+      const id = req.body.usId;
 
       let filtredTasks;
       page || 1;
@@ -44,37 +41,6 @@ module.exports = router.get(
         limit,
         offset,
       });
-
-      // const errors = validationResult(req);
-
-      // if (!errors.isEmpty()) {
-      //   return res.status(400).json({ errors: errors.array() });
-      // }
-
-      // const { pp, page, filterBy, order, id } = req.query;
-
-      // let filtredTasks;
-      // page || 1;
-      // let limit = pp || 5;
-      // let offset = page * limit - limit;
-
-      // filtredTasks = await User.findAndCountAll({
-      //   include: [
-      //     {
-      //       association: "Tasks",
-      //       where: {
-      //         userId: id,
-      //         done:
-      //           (filterBy === constants.done && true) ||
-      //           (filterBy === constants.undone && false) ||
-      //           (filterBy === "" && [false, true]),
-      //       },
-      //       order: order ? [["createdAt", order]] : [],
-      //     },
-      //   ],
-      //   limit,
-      //   offset,
-      // });
 
       res.json(filtredTasks);
     } catch (error) {

@@ -3,19 +3,17 @@ const Tasks = require("../../models/tasks");
 const User = require("../../models/user");
 const ApiError = require("../error/apiError.js");
 const jwt = require("jsonwebtoken");
+const { authorizationHalper } = require("../middleware/authMiddleWareHandler");
 
 const router = new Router();
 
 module.exports = router.delete(
   `${process.env.API_URL_TASK}/:id`,
+  authorizationHalper,
   async (req, res, next) => {
     try {
-      const authorization = req.headers.authorization;
-      const accessToken = authorization.split(" ")[1];
-      const dec = jwt.decode(accessToken);
-      const id = dec.payload;
-
       const uuid = req.params.id;
+      const id = req.body.usId;
 
       const deletTasks = await Tasks.destroy({
         where: {

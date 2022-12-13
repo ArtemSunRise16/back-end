@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+const { authorizationHalper } = require("../middleware/authMiddleWareHandler");
 const Router = require("express");
 const ApiError = require("../error/apiError.js");
 const Tasks = require("../../models/tasks");
@@ -12,15 +12,13 @@ const router = new Router();
 
 module.exports = router.post(
   process.env.API_URL_TASK,
+  authorizationHalper,
   validate,
   error,
   async (req, res, next) => {
     try {
+      const id = req.body.usId;
       const { name, done, createdAt } = req.body;
-      const authorization = req.headers.authorization;
-      const accessToken = authorization.split(" ")[1];
-      const dec = jwt.decode(accessToken);
-      const id = dec.payload;
 
       const user = await User.findOne({
         where: {

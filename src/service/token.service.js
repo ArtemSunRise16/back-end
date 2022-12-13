@@ -8,15 +8,6 @@ const generateAccessToken = (uuid) => {
   return jwt.sign({ payload }, process.env.SECRET, { expiresIn: "30d" });
 };
 
-const validateAccessToken = (token) => {
-  try {
-    const userData = jwt.verify(token, process.env.SECRET);
-    return userData;
-  } catch (e) {
-    return null;
-  }
-};
-
 const findToken = async (token) => {
   return await User.findOne({
     where: {
@@ -25,4 +16,4 @@ const findToken = async (token) => {
   });
 };
 
-module.exports = { generateAccessToken, validateAccessToken, findToken };
+module.exports = { generateAccessToken, findToken };
