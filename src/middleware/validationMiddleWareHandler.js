@@ -8,7 +8,6 @@ const validate = [
     .isLength({ max: 255 })
     .withMessage("Title too long"),
   body("done").notEmpty().isBoolean(),
-  body("createdAt").trim().notEmpty().withMessage("Field not empty"),
 ];
 
 const validateAuth = [

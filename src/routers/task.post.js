@@ -18,7 +18,7 @@ module.exports = router.post(
   error,
   async (req, res) => {
     try {
-      const { name, done, createdAt, usId } = req.body;
+      const { name, done, usId } = req.body;
 
       // const findName = await User.findOne({
       //   include: [
@@ -42,6 +42,8 @@ module.exports = router.post(
       if (findName) {
         return res.status(400).json(ApiError.badRequest("Name already exist"));
       }
+
+      const createdAt = new Date();
 
       await Tasks.create({
         name,
