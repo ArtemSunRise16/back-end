@@ -18,8 +18,7 @@ module.exports = router.post(
   error,
   async (req, res) => {
     try {
-      const id = req.body.usId;
-      const { name, done, createdAt } = req.body;
+      const { name, done, createdAt, usId } = req.body;
 
       const findName = await User.findOne({
         include: [
@@ -27,7 +26,7 @@ module.exports = router.post(
             association: "Tasks",
             where: {
               name: name,
-              userId: id,
+              userId: usId,
             },
           },
         ],
@@ -41,7 +40,7 @@ module.exports = router.post(
         name,
         done,
         createdAt,
-        userId: id,
+        userId: usId,
       });
 
       res.status(201).json({ status: 201, massegee: "Successfully" });
