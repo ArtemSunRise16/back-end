@@ -13,7 +13,7 @@ module.exports = router.post(
   "/login",
   validateAuth,
   error,
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       const { username, password } = req.body;
 
@@ -37,7 +37,7 @@ module.exports = router.post(
 
       const token = generateAccessToken(user.id);
 
-      res.json({ accessToken: token, username: username });
+      res.json({ accessToken: token, username: username, userId: user.id });
     } catch (e) {
       res.json("server errors");
     }

@@ -1,19 +1,19 @@
 module.exports = class ApiError extends Error {
-  constructor(status, massege) {
+  constructor(status, message) {
     super();
     this.status = status;
-    this.message = massege;
+    this.message = message;
   }
 
-  static notFound(massege) {
-    return new ApiError(404, massege);
+  static notFound(message) {
+    return new ApiError(404, message);
   }
 
-  static badRequest(massege) {
-    return new ApiError(400, massege);
+  static badRequest(message) {
+    return new ApiError(400, message);
   }
 
-  static internal(massege) {
-    return new ApiError(500, massege);
+  static internal(message) {
+    return new ApiError(500, message);
   }
 };

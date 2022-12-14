@@ -14,6 +14,7 @@ const validate = [
 const validateAuth = [
   body("username")
     .isEmail()
+    .bail()
     .withMessage("Username must be email")
     .isString()
     .trim()
@@ -33,7 +34,9 @@ const validateAuth = [
 function error(req, res, next) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ ...errors.errors });
+    return errors
+      .array([{ onlyFirstError: true }])
+      .forEach((error) => res.status(400).json({ message: error.msg }));
   }
   next();
 }

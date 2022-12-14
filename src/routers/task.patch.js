@@ -1,5 +1,4 @@
 const Router = require("express");
-const jwt = require("jsonwebtoken");
 const { param } = require("express-validator");
 const ApiError = require("../error/apiError.js");
 const Tasks = require("../../models/tasks");
@@ -9,6 +8,7 @@ const {
   validate,
   error,
 } = require("../middleware/validationMiddleWareHandler.js");
+
 const User = require("../../models/user.js");
 
 const router = new Router();
@@ -19,17 +19,11 @@ module.exports = router.patch(
   param("id").notEmpty(),
   validate,
   error,
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       const id = req.body.usId;
       const { name, done, createdAt } = req.body;
       const taskId = req.params.id;
-
-      const user = await User.findOne({
-        where: {
-          id: id,
-        },
-      });
 
       const findTask = await User.findOne({
         include: [
@@ -37,7 +31,7 @@ module.exports = router.patch(
             association: "Tasks",
             where: {
               name: name,
-              userId: user.dataValues.id,
+              userId: id,
             },
           },
         ],
@@ -49,7 +43,7 @@ module.exports = router.patch(
           {
             where: {
               uuid: taskId,
-              userId: user.id,
+              userId: id,
             },
           }
         );
@@ -71,7 +65,7 @@ module.exports = router.patch(
         {
           where: {
             uuid: taskId,
-            userId: user.id,
+            userId: id,
           },
         }
       );

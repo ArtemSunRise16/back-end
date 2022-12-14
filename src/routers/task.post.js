@@ -6,6 +6,7 @@ const {
   validate,
   error,
 } = require("../middleware/validationMiddleWareHandler.js");
+
 const User = require("../../models/user.js");
 
 const router = new Router();
@@ -15,16 +16,10 @@ module.exports = router.post(
   authorizationHalper,
   validate,
   error,
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       const id = req.body.usId;
       const { name, done, createdAt } = req.body;
-
-      const user = await User.findOne({
-        where: {
-          id: id,
-        },
-      });
 
       const findName = await User.findOne({
         include: [
@@ -32,7 +27,7 @@ module.exports = router.post(
             association: "Tasks",
             where: {
               name: name,
-              userId: user.id,
+              userId: id,
             },
           },
         ],
@@ -46,7 +41,7 @@ module.exports = router.post(
         name,
         done,
         createdAt,
-        userId: user.id,
+        userId: id,
       });
 
       res.status(201).json({ status: 201, massegee: "Successfully" });

@@ -1,8 +1,6 @@
 const Router = require("express");
 const Tasks = require("../../models/tasks");
-const User = require("../../models/user");
 const ApiError = require("../error/apiError.js");
-const jwt = require("jsonwebtoken");
 const { authorizationHalper } = require("../middleware/authMiddleWareHandler");
 
 const router = new Router();
@@ -10,7 +8,7 @@ const router = new Router();
 module.exports = router.delete(
   `${process.env.API_URL_TASK}/:id`,
   authorizationHalper,
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       const uuid = req.params.id;
       const id = req.body.usId;

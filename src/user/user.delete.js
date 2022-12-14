@@ -5,7 +5,7 @@ const ApiError = require("../error/apiError");
 
 module.exports = router.delete("/delete/:id", async (req, res, next) => {
   try {
-    const deletUser = await User.destroy({
+    await User.destroy({
       where: {
         id: req.params.id,
       },

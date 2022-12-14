@@ -4,8 +4,6 @@ const Tasks = require("../../models/tasks");
 const { validationResult, query } = require("express-validator");
 const constants = require("../constants/constants.js");
 const { authorizationHalper } = require("../middleware/authMiddleWareHandler");
-const User = require("../../models/user.js");
-const jwt = require("jsonwebtoken");
 
 const router = new Router();
 
@@ -14,13 +12,14 @@ module.exports = router.get(
   authorizationHalper,
   query("filterBy").trim(),
   query("order").trim(),
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
+
       const { pp, page, filterBy, order } = req.query;
       const id = req.body.usId;
 
