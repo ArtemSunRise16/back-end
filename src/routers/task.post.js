@@ -20,16 +20,23 @@ module.exports = router.post(
     try {
       const { name, done, createdAt, usId } = req.body;
 
-      const findName = await User.findOne({
-        include: [
-          {
-            association: "Tasks",
-            where: {
-              name: name,
-              userId: usId,
-            },
-          },
-        ],
+      // const findName = await User.findOne({
+      //   include: [
+      //     {
+      //       association: "Tasks",
+      //       where: {
+      //         name: name,
+      //         userId: id,
+      //       },
+      //     },
+      //   ],
+      // });
+
+      const findName = await Tasks.findOne({
+        where: {
+          name: name,
+          userId: usId,
+        },
       });
 
       if (findName) {
